@@ -4,6 +4,7 @@ import { FlashList } from "@shopify/flash-list";
 import { useState } from "react";
 import { Animated, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import AxiosInstance from "@/helpers/AxiosInstance";
 
 const DATA = [
     {
