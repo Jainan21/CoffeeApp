@@ -88,7 +88,20 @@ const detail = () => {
                         horizontal={true}
                         estimatedItemSize={200}
                         showsHorizontalScrollIndicator={false}
+                        ItemSeparatorComponent={() => <View style={{width:40,}}></View>}
                     />
+                </View>
+                <View style={styles.detailPriceContainer}>
+                    <View style={styles.priceContainer}>
+                        <Text style={styles.title}>Price</Text>
+                        <View style={styles.priceContent}>
+                            <Image style={styles.icon} source={require('@/assets/images/dollar.png')}/>
+                            <Text style={styles.rating}>4.20</Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.addToCartBtn}>
+                        <Text style={styles.addtoCartContent}>Add to Cart</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -107,7 +120,8 @@ const styles = StyleSheet.create({
     },
     detailInf: {
         flex: 1,
-        backgroundColor:"#0C0F14"
+        backgroundColor:"#0C0F14",
+        paddingHorizontal:20
     },
     productImage: {
         width: "100%",
@@ -157,8 +171,7 @@ const styles = StyleSheet.create({
     information: {
         flex: 2,
         width: "100%",
-        backgroundColor: "#000000",
-        opacity: 0.7,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
         position: "absolute",
         bottom: 0,
         paddingVertical: 20,
@@ -198,7 +211,8 @@ const styles = StyleSheet.create({
 
     },
     textGeneral: {
-        color: "#EAEAEA"
+        color: "#EAEAEA",
+        textAlign:"center"
     },
     button: {
         backgroundColor: "#21262E",
@@ -210,17 +224,55 @@ const styles = StyleSheet.create({
         height: 17
     },
     detailContainer:{
-        width: "100%"
+        width: "100%",
+    },
+    detailPriceContainer:{
+        width: "100%",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        verticalAlign:"center",
+        marginVertical:20
     },
     sizeButton:{
         height:40,
-        width:100,
-        marginRight:20,
+        width: 105,
         justifyContent:"center",
         backgroundColor:"#141921",
     },
     textItem:{
         color:"#ffffff",
         textAlign:"center",
+        fontSize:16,
+        fontWeight:200
+    },
+    title:{
+        fontSize:14,
+        fontWeight:800,
+        color:"#AEAEAE",
+        marginVertical:10
+    },
+    content:{
+        fontSize:12,
+        fontWeight:500,
+        color:"#AEAEAE",
+        textAlign:"justify",
+    },
+    addToCartBtn:{
+        backgroundColor:"#D17842",
+        paddingHorizontal:50,
+        paddingVertical:10,
+        justifyContent:"center",
+        borderRadius:12
+    },
+    priceContent:{
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    addtoCartContent:{
+        fontSize:16,
+        fontWeight:700,
+        color:"#FFFFFF",
+        padding:10
     }
 })
