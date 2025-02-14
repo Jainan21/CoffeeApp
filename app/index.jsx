@@ -4,8 +4,8 @@ import Login from './login';
 import Home from './home';
 import Detail from './children/detail';
 import Profile from './children/profile';
-
+import Edit_Profile from './children/edit_profile';
 
 export default function Index() {
-  return <Profile/>;
+  return <Edit_Profile/>;
 }
