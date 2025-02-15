@@ -1,5 +1,5 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
-import { View } from "react-native-web";
+import { Link } from "expo-router";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 
 export default function Register(){
@@ -43,7 +43,10 @@ export default function Register(){
             </View>
             <View style={myStyles.signIn}>
                 <Text style={myStyles.text1}>You have an account? Click</Text>
-                <Text style={myStyles.text2}> Sign in</Text>
+                <Link href="./login">
+                    <Text style={myStyles.text2}> Sign in</Text>
+                </Link>
+                
             </View>
         </View>
     );

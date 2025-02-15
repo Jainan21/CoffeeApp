@@ -1,5 +1,6 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
-import { View } from "react-native-web";
+import { Link } from "expo-router";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
 
 
 export default function Login(){
@@ -36,7 +37,10 @@ export default function Login(){
             </View>
             <View style={myStyles.signIn}>
                 <Text style={myStyles.text1}>Don't have an account? Click </Text>
-                <Text style={myStyles.text2}>Register</Text>
+                <Link href="./register">
+                    <Text style={myStyles.text2}>Register</Text>
+                </Link>
+                
             </View>
             <View style={myStyles.signIn}>
                 <Text style={myStyles.text1}>Forget Password? Click </Text>
