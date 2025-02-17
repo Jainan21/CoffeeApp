@@ -39,7 +39,7 @@ const edit_profile = () => {
                         onChangeText={setPassword}
                         placeholder="Password"
                         placeholderTextColor="#aaa"
-                        
+
                     />
                     <IconButton
                         icon={"eye"}
@@ -53,7 +53,7 @@ const edit_profile = () => {
                         onChangeText={setPassword}
                         placeholder="Re-Type password"
                         placeholderTextColor="#aaa"
-                        
+
                     />
                     <IconButton
                         icon={"eye"}
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderRadius: 10,
         marginBottom: 15,
-        borderColor:"#252A32",
-        borderWidth:1
+        borderColor: "#252A32",
+        borderWidth: 1
     },
     avatar: {
         width: 150,
@@ -132,25 +132,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 15,
         marginBottom: 15,
-        borderColor:"#252A32",
-        borderWidth:1
-      },
-      passwordInput: {
+        borderColor: "#252A32",
+        borderWidth: 1
+    },
+    passwordInput: {
         flex: 1,
         color: "#fff",
-        
-      },
-      buttonSave:{
-        width:"100%",
-        backgroundColor:"#D17842",
-        borderRadius:20,
-        paddingVertical:20,
-        marginVertical:50
+
     },
-    textSave:{
-        color:"#FFFFFF",
-        fontSize:14,
-        fontWeight:800,
-        textAlign:"center"
+    buttonSave: {
+        width: "100%",
+        backgroundColor: "#D17842",
+        borderRadius: 20,
+        paddingVertical: 20,
+        marginVertical: 50
+    },
+    textSave: {
+        color: "#FFFFFF",
+        fontSize: 14,
+        fontWeight: 800,
+        textAlign: "center"
     }
 })

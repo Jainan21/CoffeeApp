@@ -1,10 +1,10 @@
-import { Stack } from "expo-router";
+import { Slot, Stack } from "expo-router";
+import { AppProvider } from '@/app-context'
 
 export default function RootLayout() {
-  return <Stack
-    screenOptions={{
-      headerShown: false
-
-    }} 
-    />;
+  return (
+    <AppProvider>
+      <Slot/> 
+    </AppProvider>
+    )
 }

@@ -1,9 +1,11 @@
 import { Link } from "expo-router";
+import { useState } from "react";
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-
-
+import { IconButton } from "react-native-paper";
 
 export default function Login(){
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     return(
         <View style={myStyles.container}>
             <Image style={myStyles.logo} source={require('../assets/images/logoapp.png')}/>
@@ -11,17 +13,24 @@ export default function Login(){
             <Text style={myStyles.register}>Login to Continue</Text>
             <View style={myStyles.inputcontainer}>
                 <TextInput 
-                    style={myStyles.input}
+                    style={myStyles.usernameinput}
+                    value={username}
+                    onChangeText={setUsername}
                     placeholder="Email Address"
+                    placeholderTextColor="#aaa"
                 />
-                <View>
+                <View style={myStyles.passwordContainer}>
                     <TextInput
                         style={myStyles.input}
+                        value={password}
+                        onChangeText={setPassword}
                         placeholder="Password"
+                        placeholderTextColor="#aaa"
+                        
                     />
-                    <Image
-                        style={myStyles.eye}
-                        source={require('../assets/images/eye.png')}
+                    <IconButton
+                        icon={"eye"}
+                        size={20}
                     />
                 </View>
                 <View style={myStyles.buttonContainer}>
@@ -37,8 +46,8 @@ export default function Login(){
             </View>
             <View style={myStyles.signIn}>
                 <Text style={myStyles.text1}>Don't have an account? Click </Text>
-                <Link href="./register">
-                    <Text style={myStyles.text2}>Register</Text>
+                <Link href="./register" style={myStyles.text2}>
+                    <Text >Register</Text>
                 </Link>
                 
             </View>
@@ -82,21 +91,27 @@ const myStyles = StyleSheet.create({
     },
     input:{
         width: '100%',
-        height: 48,
+    },
+    usernameinput:{
+        width: '100%',
         borderWidth: 1,
         borderRadius: 8,
         borderColor: "#828282",
-        color: "#828282",
+        color: "#aaa",
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        marginVertical: 8
+    },
+    passwordContainer:{
+        flexDirection:"row",
+        alignItems:"center",
+        borderWidth: 1,
+        borderRadius: 8,
+        borderColor: "#828282",
+        color: "#aaa",
         paddingHorizontal: 16,
         paddingVertical: 12,
         marginVertical: 8
-    },
-    eye:{
-        position: 'absolute',
-        right: 10,
-        top: 22,
-        width: 30,
-        height: 18
     },
     buttonContainer:{
         marginVertical: 30
@@ -117,7 +132,9 @@ const myStyles = StyleSheet.create({
     },
     signIn:{
         flexDirection:"row",
-        marginVertical: 5
+        marginVertical: 5,
+        textAlign:"center",
+        justifyContent:"center"
     },
     text1:{
         fontSize:12,
