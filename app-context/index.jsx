@@ -11,8 +11,10 @@ export const AppProvider = ({ children }) => {
 
     const [item, setItemId] = useState("");
 
+    const [userData, setUserData] = useState([]);
+
     return (
-        <AppContext.Provider value={{ isAuth, setIsAuth, cart, setCart, item, setItemId }}>
+        <AppContext.Provider value={{ isAuth, setIsAuth, cart, setCart, item, setItemId, userData, setUserData }}>
             {children}
         </AppContext.Provider>
     );

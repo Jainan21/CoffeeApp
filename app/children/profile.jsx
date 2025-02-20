@@ -1,6 +1,7 @@
-import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
 
 const profile = () => {
   const Data = [
@@ -37,11 +38,13 @@ const profile = () => {
   ];
 
   const [settingData, setSettingData] = useState(Data);
+  const [selectedIndex, setSelectedIndex] = useState(1);
 
-  const renderSizeDrinks = ({ item, index }) => {
+  const renderTag = ({ item, index }) => {
     const { content, image } = item;
     return (
-      <TouchableOpacity style={styles.buttonItem}>
+      <TouchableOpacity style={styles.buttonItem} onPress={ () =>
+        {index == 0 ? router.push("/children/edit_profile") : index == 2 ? router.push("/children/payment") : console.log("test");}}>
         <View style={styles.icon1}>
           <Image style={styles.icon} source={item.image} />
         </View>
@@ -54,18 +57,17 @@ const profile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={()=>{router.push("/home")}}>
           <Image style={styles.icon} source={require("@/assets/images/back.png")} />
         </TouchableOpacity>
         <Text style={styles.headerName}>Setting</Text>
       </View>
       <FlashList
         data={settingData}
-        renderItem={renderSizeDrinks}
+        renderItem={renderTag}
         horizontal={false}
         estimatedItemSize={200}
         showsHorizontalScrollIndicator={false}
-
       />
     </View>
   )

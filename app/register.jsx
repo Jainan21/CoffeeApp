@@ -2,12 +2,37 @@ import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { IconButton } from "react-native-paper";
+import AxiosInstance from "../helpers/AxiosInstance"
+
 
 
 export default function Register() {
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordRetype, setPasswordRetype] = useState("");
+    const [icon, setIcon] = useState("eye-off");
+    const [hide, setHide] = useState(true);
+
+    const onRegisterPress = async () =>{
+        try {
+            const body = {
+                email,
+                password,
+                name
+            }
+            if(!password.toString == passwordRetype.toString){
+                console.log("Wrong Password");
+            }
+            else{
+                const response = await AxiosInstance().post('users/register', body);
+                console.log(response);
+            }
+        } catch (error) {
+            console.log('error: ', error);
+        }
+    }
+
     return (
         <View style={myStyles.container}>
             <Image style={myStyles.logo} source={require('../assets/images/logoapp.png')} />
@@ -17,42 +42,51 @@ export default function Register() {
                 <TextInput
                     style={myStyles.input}
                     placeholder="Name"
+                    value={name}
+                    onChangeText={setName}
                     placeholderTextColor="#aaa"
                 />
                 <TextInput
                     style={myStyles.input}
                     placeholder="Email"
+                    onChangeText={setEmail}
+                    value={email}
                     placeholderTextColor="#aaa"
                 />
                 <View style={myStyles.passwordContainer}>
                     <TextInput
                         style={myStyles.passwordInput}
                         value={password}
+                        textContentType="password"
+                        secureTextEntry={hide}
                         onChangeText={setPassword}
                         placeholder="Password"
                         placeholderTextColor="#aaa"
 
                     />
                     <IconButton
-                        icon={"eye"}
+                        icon={icon}
                         size={20}
+                        onPress={() => {setIcon(icon==="eye-off" ? "eye" : "eye-off"), setHide(!hide)}}
                     />
                 </View>
                 <View style={myStyles.passwordContainer}>
                     <TextInput
                         style={myStyles.passwordInput}
-                        value={password}
-                        onChangeText={setPassword}
+                        value={passwordRetype}
+                        secureTextEntry={hide}
+                        onChangeText={setPasswordRetype}
                         placeholder="Re-Type password"
                         placeholderTextColor="#aaa"
 
                     />
                     <IconButton
-                        icon={"eye"}
+                        icon={icon}
                         size={20}
+                        onPress={() => {setIcon(icon==="eye-off" ? "eye" : "eye-off"), setHide(!hide)}}
                     />
                 </View>
-                <TouchableOpacity style={myStyles.registerButton}>
+                <TouchableOpacity style={myStyles.registerButton} onPress={onRegisterPress}>
                     <Text style={myStyles.registerContent}>Register</Text>
                 </TouchableOpacity>
             </View>

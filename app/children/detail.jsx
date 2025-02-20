@@ -1,9 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { FlashList } from '@shopify/flash-list'
-import { useGlobalSearchParams } from 'expo-router'
+import { router, useGlobalSearchParams} from 'expo-router'
 import AxiosInstance from "@/helpers/AxiosInstance";
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const detail = () => {
     const sizeDrinks = [
@@ -21,15 +22,16 @@ const detail = () => {
         }
     ];
     const data = {
-        // id: '1',
-        // image: 'https://mfiles.alphacoders.com/689/thumb-1920-689588.jpg',
-        // name: 'Cat',
-        // detail: 'With Cat & Cat',
-        // rating: 4.6,
-        // voting: 4600,
-        // description: 'A cappuccino is an espresso-based coffee beverage made by combining equal parts of espresso, steamed milk, and milk foam. It is typically served in a 5-6 ounce ceramic cup (like porcelain) to help retain heat',
-        // price: 2.50
+        id: '1',
+        image: 'https://mfiles.alphacoders.com/689/thumb-1920-689588.jpg',
+        name: 'Cat',
+        detail: 'With Cat & Cat',
+        rating: 4.6,
+        voting: 4600,
+        description: 'A cappuccino is an espresso-based coffee beverage made by combining equal parts of espresso, steamed milk, and milk foam. It is typically served in a 5-6 ounce ceramic cup (like porcelain) to help retain heat',
+        price: 2.50
     };
+    const navigation = useNavigation();
     const [drink, setDrinkData] = useState([]);
     const params = useGlobalSearchParams();
     console.log(params.id);
@@ -38,9 +40,7 @@ const detail = () => {
             const fetchProducts = async () => {
                 try {
                     const response = await AxiosInstance().get(`products/${params.id}`);
-                    console.log("Drink data: ", response);
                     setDrinkData(response.product);
-                    console.log("Drink data2: ", drink);
                 } catch (error) {
                     console.log(error);
                 }
@@ -65,7 +65,7 @@ const detail = () => {
             <View style={styles.generalInf}>
                 <Image style={styles.productImage} source={{uri : drink.image}} />
                 <View style={styles.navbar}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={()=>router.push("/home")}>
                         <Image style={styles.icon} source={require("@/assets/images/back.png")} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>

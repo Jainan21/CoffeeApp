@@ -1,23 +1,13 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FlashList } from "@shopify/flash-list";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import AxiosInstance from "@/helpers/AxiosInstance";
-import { Link } from "expo-router";
-
+import { Link, router } from "expo-router";
 
 const DATA = [
     {
         id: '1',
-        name: 'Coffee'
-    },
-    {
-        id: '2',
-        name: 'Coffee'
-    },
-    {
-        id: '3',
         name: 'Coffee'
     },
 ]
@@ -43,7 +33,6 @@ export default function Home() {
             try {
                 const response = await AxiosInstance().get("categories");
                 setCategoriesData(response.categories);
-                console.log("Categories Data1:", categoriesData);
             } catch (error) {
                 console.log(error);
             }
@@ -53,7 +42,6 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        console.log("Categories Data2:", categoriesData);
     }, [categoriesData]);
 
     useEffect(() => {
@@ -61,7 +49,6 @@ export default function Home() {
             try {
                 const response = await AxiosInstance().get(`products?category=${selectedId}`);
                 setDrinkData(response.products);
-                console.log("Drink data: ", coffeeDrink);
             } catch (error) {
                 console.log(error);
             }
@@ -83,21 +70,14 @@ export default function Home() {
                     (<View style={myStyle.circle}></View>)
                 }
             </TouchableOpacity>
-
         );
     }
 
     const renderDrinks = ({ item, index }) => {
         const { _id, name, description, price, rating, image } = item;
         return (
-            <Link href={{pathname:"children/detail", params:{id: item._id}}}>
-                <TouchableOpacity
-                    style={myStyle.productCard} onPress={() => {
-                        console.log(item._id);
-                        setItemId(item._id);
-
-                    }
-                    }>
+            <Link href={{ pathname: "children/detail", params: { id: _id } }}>
+                <TouchableOpacity style={myStyle.productCard}>
                     <View style={myStyle.imageContainer}>
                         <Image style={myStyle.productImage} source={{ uri: image }} />
                         <View style={myStyle.ratingContainer}>
@@ -117,28 +97,26 @@ export default function Home() {
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
-
             </Link>
-
-
         )
     }
-
-
-    const tab = createBottomTabNavigator();
 
     return (
         <ScrollView contentContainerStyle={myStyle.scrollContainer}>
             <View style={myStyle.container}>
                 <View style={myStyle.header}>
-                    <Image
-                        source={require('@/assets/images/menu.png')}
-                        style={myStyle.icon}
-                    />
-                    <Image
-                        source={require('@/assets/images/user.png')}
-                        style={myStyle.icon}
-                    />
+                    <TouchableOpacity onPress={() => { router.push("/children/profile") }}>
+                        <Image
+                            source={require('@/assets/images/menu.png')}
+                            style={myStyle.icon}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            source={require('@/assets/images/user.png')}
+                            style={myStyle.icon}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <Text style={myStyle.welcome}>Find the best coffee for you</Text>
                 <View style={myStyle.searchingBar}>
@@ -174,12 +152,9 @@ export default function Home() {
                     horizontal={true}
                     estimatedItemSize={200}
                     showsHorizontalScrollIndicator={false}
-
                 />
             </View>
         </ScrollView>
-
-
     );
 }
 

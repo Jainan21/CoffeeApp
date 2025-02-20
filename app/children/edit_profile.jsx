@@ -1,17 +1,38 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { IconButton } from 'react-native-paper';
+import { router } from 'expo-router';
+import { AppContext } from '../../app-context';
+import AxiosInstance from '@/helpers/AxiosInstance';
 
 const edit_profile = () => {
-    const [name, setName] = useState("Nguyen Van A");
-    const [email, setEmail] = useState("vana@gmail.com");
+    const {userData} = useContext(AppContext); 
+    const [name, setName] = useState(userData[1] || "");
+    const [email, setEmail] = useState(userData[0] || "");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordReType, setPasswordRetype] = useState("");
+    const [icon, setIcon] = useState("eye-off");
+    const [hide, setHide] = useState(true);
+
+    const onSavePress = async () => {
+        try {
+            const body ={
+                email,
+                password,
+                name
+            }
+            setPassword(userData[3]);
+            const response = await AxiosInstance().post("users/update-profile", body);
+            console.log(response);
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={()=>{router.push("/children/profile")}}>
                     <Image style={styles.icon} source={require("@/assets/images/back.png")} />
                 </TouchableOpacity>
                 <Text style={styles.headerName}>Setting</Text>
@@ -39,28 +60,30 @@ const edit_profile = () => {
                         onChangeText={setPassword}
                         placeholder="Password"
                         placeholderTextColor="#aaa"
-
+                        secureTextEntry={hide}
                     />
                     <IconButton
-                        icon={"eye"}
+                        icon={icon}
                         size={20}
+                        onPress={() => {setIcon(icon==="eye-off" ? "eye" : "eye-off"), setHide(!hide)}}
                     />
                 </View>
                 <View style={styles.passwordContainer}>
                     <TextInput
                         style={styles.passwordInput}
-                        value={password}
-                        onChangeText={setPassword}
+                        value={passwordReType}
+                        onChangeText={setPasswordRetype}
                         placeholder="Re-Type password"
                         placeholderTextColor="#aaa"
-
+                        secureTextEntry={hide}
                     />
                     <IconButton
-                        icon={"eye"}
+                        icon={icon}
                         size={20}
+                        onPress={() => {setIcon(icon==="eye-off" ? "eye" : "eye-off"), setHide(!hide)}}
                     />
                 </View>
-                <TouchableOpacity style={styles.buttonSave}>
+                <TouchableOpacity style={styles.buttonSave} onPress={onSavePress}>
                     <Text style={styles.textSave}>Save</Text>
                 </TouchableOpacity>
 

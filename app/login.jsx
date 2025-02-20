@@ -1,5 +1,5 @@
-import { Link, Redirect, useRouter } from "expo-router";
-import { useContext, useState } from "react";
+import { Link, useRouter } from "expo-router";
+import { useContext, useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { IconButton } from "react-native-paper";
 import AxiosInstance from "../helpers/AxiosInstance"
@@ -8,10 +8,11 @@ import { AppContext } from "../app-context"
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { setIsAuth, isAuth } = useContext(AppContext)
+    const { setIsAuth, isAuth } = useContext(AppContext);
+    const {userData, setUserData} = useContext(AppContext);
     const router = useRouter();
-
-    console.log("isAuth", isAuth);
+    const [icon, setIcon] = useState("eye-off");
+    const [hide, setHide] = useState(true);
 
     const onLoginPress = async () => {
         try {
@@ -22,16 +23,17 @@ export default function Login() {
             const response = await AxiosInstance().post('users/login', body);
             if (response.status == true) {
                 setIsAuth(true);
-                router.push('/');
+                setUserData([response.user.email, response.user.name, body.password]);
+                console.log([response.user.email, response.user.name, body.password]);
+                router.push('/home');
             } else {
                 Alert.alert("Login Failed", "Invalid email or password");
             }
-            console.log('response: ', response);
         }
         catch (error) {
             console.log('error: ', error);
         }
-    }
+    };
 
     return (
         <View style={myStyles.container}>
@@ -50,14 +52,16 @@ export default function Login() {
                     <TextInput
                         style={myStyles.passwordInput}
                         value={password}
+                        secureTextEntry={hide}
                         onChangeText={setPassword}
                         placeholder="Password"
                         placeholderTextColor="#aaa"
 
                     />
                     <IconButton
-                        icon={"eye"}
+                        icon={icon}
                         size={20}
+                        onPress={() => {setIcon(icon==="eye-off" ? "eye" : "eye-off"), setHide(!hide)}}
                     />
                 </View>
                 <View style={myStyles.buttonContainer}>
