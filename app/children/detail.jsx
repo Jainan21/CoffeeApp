@@ -1,12 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlashList } from '@shopify/flash-list'
-
-
-
+import { useGlobalSearchParams } from 'expo-router'
+import AxiosInstance from "@/helpers/AxiosInstance";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const detail = () => {
-
     const sizeDrinks = [
         {
             id: "1",
@@ -21,6 +20,34 @@ const detail = () => {
             content: 'L'
         }
     ];
+    const data = {
+        // id: '1',
+        // image: 'https://mfiles.alphacoders.com/689/thumb-1920-689588.jpg',
+        // name: 'Cat',
+        // detail: 'With Cat & Cat',
+        // rating: 4.6,
+        // voting: 4600,
+        // description: 'A cappuccino is an espresso-based coffee beverage made by combining equal parts of espresso, steamed milk, and milk foam. It is typically served in a 5-6 ounce ceramic cup (like porcelain) to help retain heat',
+        // price: 2.50
+    };
+    const [drink, setDrinkData] = useState([]);
+    const params = useGlobalSearchParams();
+    console.log(params.id);
+
+    useEffect(() => {
+            const fetchProducts = async () => {
+                try {
+                    const response = await AxiosInstance().get(`products/${params.id}`);
+                    console.log("Drink data: ", response);
+                    setDrinkData(response.product);
+                    console.log("Drink data2: ", drink);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            fetchProducts();
+            return () => { };
+        }, []);
 
     const [sizeData, setSizeData] = useState(sizeDrinks);
 
@@ -34,9 +61,9 @@ const detail = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.generalInf}>
-                <Image style={styles.productImage} source={require("@/assets/images/cappuccino.png")} />
+                <Image style={styles.productImage} source={{uri : drink.image}} />
                 <View style={styles.navbar}>
                     <TouchableOpacity style={styles.button}>
                         <Image style={styles.icon} source={require("@/assets/images/back.png")} />
@@ -48,13 +75,13 @@ const detail = () => {
                 <View style={styles.information}>
                     <View style={styles.productName}>
                         <View>
-                            <Text style={styles.textinfo}>Cappuccino</Text>
-                            <Text style={styles.productDescription}>With Steamed Milk</Text>
+                            <Text style={styles.textinfo}>{drink.name}</Text>
+                            <Text style={styles.productDescription}>{drink.detail}</Text>
                         </View>
                         <View style={styles.ratingContainer}>
                             <Image style={styles.star} source={require("@/assets/images/star.png")} />
-                            <Text style={styles.rating}>4.5</Text>
-                            <Text style={styles.ratingCount}>(6.876)</Text>
+                            <Text style={styles.rating}>{drink.rating}</Text>
+                            <Text style={styles.ratingCount}>({drink.voting})</Text>
                         </View>
                     </View>
                     <View style={styles.productInfo}>
@@ -78,7 +105,7 @@ const detail = () => {
             <View style={styles.detailInf}>
                 <View style={styles.detailContainer}>
                     <Text style={styles.title}>Description</Text>
-                    <Text style={styles.content}>A cappuccino is an espresso-based coffee beverage made by combining equal parts of espresso, steamed milk, and milk foam. It is typically served in a 5-6 ounce ceramic cup (like porcelain) to help retain heat.</Text>
+                    <Text style={styles.content}>{drink.description}</Text>
                 </View>
                 <View style={styles.detailContainer}>
                     <Text style={styles.title}>Size</Text>
@@ -96,7 +123,7 @@ const detail = () => {
                         <Text style={styles.title}>Price</Text>
                         <View style={styles.priceContent}>
                             <Image style={styles.icon} source={require('@/assets/images/dollar.png')}/>
-                            <Text style={styles.rating}>4.20</Text>
+                            <Text style={styles.rating}>{drink.price}</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.addToCartBtn}>
@@ -104,7 +131,7 @@ const detail = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -112,8 +139,9 @@ export default detail
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#141921'
+        backgroundColor: '#141921',
+        flexGrow:1,
+        paddingBottom:10
     },
     generalInf: {
         flex: 2,
@@ -134,7 +162,8 @@ const styles = StyleSheet.create({
     textinfo: {
         color: "#FFFFFF",
         fontSize: 20,
-        fontWeight: 700
+        fontWeight: 700,
+        maxWidth: 200
     },
     productDescription: {
         color: "#AEAEAE",

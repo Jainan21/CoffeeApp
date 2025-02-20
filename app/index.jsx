@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { AppContext } from "@/app-context"
 
-
 export default function Index() {
   const [time, setTime] = useState(true);
   const {isAuth} = useContext(AppContext);
@@ -24,7 +23,7 @@ export default function Index() {
       </View>
     )
   }
-  return isAuth ? <Redirect href="/homePage" /> : <Redirect href="/login" />;
+  return isAuth ? <Redirect href="/home/"/> : <Redirect href="/login"/>;
 }
 
 const myStyles = StyleSheet.create({

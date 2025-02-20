@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/splash.jsx", "app/homePage.jsx", "app/index.jsx"  ]
+, "app/splash.jsx", "app/home/homePage.jsx", "app/index.jsx", "helpers/AxiosInstance.jsx", "app/_layout.jsx"  ]
 }
